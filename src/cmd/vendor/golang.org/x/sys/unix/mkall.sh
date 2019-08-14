@@ -126,6 +126,13 @@ freebsd_arm64)
 	mksysnum="go run mksysnum.go 'http://svn.freebsd.org/base/stable/10/sys/kern/syscalls.master'"
 	mktypes="GOARCH=$GOARCH go tool cgo -godefs"
 	;;
+freebsd_mips64)
+	mkerrors="$mkerrors -target mips64-unknown-freebsd -mabi=64 -march=mips64"
+	mksysnum="curl -s 'https://raw.githubusercontent.com/CTSRD-CHERI/cheribsd/master/sys/kern/syscalls.master' | ../../../../../../syscalls/mksysnum_freebsd.pl"
+	# Let the type of C char be signed to make the bare syscall
+	# API consistent between platforms.
+	mktypes="GOARCH=$GOARCH go tool cgo -godefs -- -target mips64-unknown-freebsd -mabi=64 -march=mips64"
+	;;
 netbsd_386)
 	mkerrors="$mkerrors -m32"
 	mksyscall="go run mksyscall.go -l32 -netbsd"

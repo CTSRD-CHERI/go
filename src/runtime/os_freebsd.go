@@ -399,8 +399,6 @@ func sysauxv(auxv []uintptr) {
 		// _AT_NCPUS from auxv shouldn't be used due to golang.org/issue/15206
 		case _AT_PAGESZ:
 			physPageSize = val
-		case _AT_TIMEKEEP:
-			timekeepSharedPage = (*vdsoTimekeep)(unsafe.Pointer(val))
 		}
 
 		archauxv(tag, val)

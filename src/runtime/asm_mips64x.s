@@ -750,3 +750,6 @@ flush:
 	MOVV	168(R29), R24
 	MOVV	176(R29), R25
 	JMP	ret
+
+TEXT runtime·emptyfunc(SB),0,$0-0
+	RET

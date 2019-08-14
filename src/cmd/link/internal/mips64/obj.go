@@ -60,7 +60,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Machoreloc1:      machoreloc1,
 
 		Linuxdynld:     "/lib64/ld64.so.1",
-		Freebsddynld:   "XXX",
+		Freebsddynld:   "/libexec/ld-elf.so.1",
 		Openbsddynld:   "XXX",
 		Netbsddynld:    "XXX",
 		Dragonflydynld: "XXX",
@@ -74,6 +74,19 @@ func archinit(ctxt *ld.Link) {
 	switch ctxt.HeadType {
 	default:
 		ld.Exitf("unknown -H option: %v", ctxt.HeadType)
+
+	case objabi.Hfreebsd: /* mips64 freebsd ELF */
+		ld.Elfinit(ctxt)
+		ld.HEADR = ld.ELFRESERVE
+		if *ld.FlagTextAddr == -1 {
+			*ld.FlagTextAddr = 0x10000 + int64(ld.HEADR)
+		}
+		if *ld.FlagDataAddr == -1 {
+			*ld.FlagDataAddr = 0
+		}
+		if *ld.FlagRound == -1 {
+			*ld.FlagRound = 0x10000
+		}
 
 	case objabi.Hplan9: /* plan 9 */
 		ld.HEADR = 32

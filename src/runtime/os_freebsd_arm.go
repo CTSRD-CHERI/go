@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build freebsd
+// +build arm
+
 package runtime
 
 import "internal/cpu"
@@ -42,6 +45,8 @@ func checkgoarm() {
 
 func archauxv(tag, val uintptr) {
 	switch tag {
+	case _AT_TIMEKEEP:
+		timekeepSharedPage = (*vdsoTimekeep)(unsafe.Pointer(val))
 	case _AT_HWCAP:
 		cpu.HWCap = uint(val)
 		goarmHWCap = cpu.HWCap

@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // +build freebsd
+// +build 386 amd64 arm arm64
 
 package runtime
 

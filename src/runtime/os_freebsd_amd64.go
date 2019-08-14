@@ -2,7 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build freebsd
+// +build 386, amd64
+
 package runtime
+
+import "unsafe"
 
 func cgoSigtramp()
 
@@ -21,4 +26,11 @@ func setsig(i uint32, fn uintptr) {
 	}
 	sa.sa_handler = fn
 	sigaction(i, &sa, nil)
+}
+
+func archauxv(tag, val uintptr) {
+	switch tag {
+	case _AT_TIMEKEEP:
+		timekeepSharedPage = (*vdsoTimekeep)(unsafe.Pointer(val))
+	}
 }
