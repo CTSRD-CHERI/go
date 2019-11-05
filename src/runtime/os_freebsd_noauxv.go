@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // +build freebsd
-// +build !arm, !386, !amd64
+// +build mips64
 
 package runtime
 
