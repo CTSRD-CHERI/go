@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // +build freebsd
-// +build mips64 mips64le
+// +build mips64
 
 #include "textflag.h"
 
@@ -14,16 +14,9 @@ TEXT _rt0_mips64le_freebsd(SB),NOSPLIT,$0
 	JMP	_main<>(SB)
 
 TEXT _main<>(SB),NOSPLIT|NOFRAME,$0
-	// In a statically linked binary, the stack contains argc,
-	// argv as argc string pointers followed by a NULL, envv as a
-	// sequence of string pointers followed by a NULL, and auxv.
-	// There is no TLS base pointer.
-#ifdef GOARCH_mips64
-	MOVW	4(R29), R4 // argc, big-endian ABI places int32 at offset 4
-#else
-	MOVW	0(R29), R4 // argc
-#endif
-	ADDV	$8, R29, R5 // argv
+	// Pointer to beginning of stack info in R4
+	ADDV	$8, R4, R5 // argv
+	MOVV	0(R4), R4 // argc
 	JMP	main(SB)
 
 TEXT main(SB),NOSPLIT|NOFRAME,$0
