@@ -45,9 +45,9 @@
 TEXT runtime·sys_umtx_op(SB),NOSPLIT,$0
 	MOVV	obj+0(FP), R4		// a0
 	MOVW	op+8(FP), R5		// a1
-	MOVW	val+16(FP), R6		// a2
-	MOVV	uaddr1+24(FP), R7	// a3
-	MOVV	uaddr1+32(FP), R8	// a4
+	MOVW	val+12(FP), R6		// a2
+	MOVV	uaddr1+16(FP), R7	// a3
+	MOVV	uaddr2+24(FP), R8	// a4
 	MOVV	$SYS__umtx_op, R2	// v0
 	SYSCALL
 	MOVW	R2, ret+40(FP)
