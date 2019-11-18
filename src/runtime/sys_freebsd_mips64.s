@@ -99,12 +99,12 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-4
 TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0
 	MOVV	path+0(FP), R4	// a0
 	MOVW	flags+8(FP), R5	// a1
-	MOVW	mode+16(FP), R6	// a2
+	MOVW	mode+12(FP), R6	// a2
 	MOVV	$SYS_open, R2	// v0
 	SYSCALL
 	BEQ	R7, 2(PC)
 	MOVW	$-1, R2
-	MOVW	R2, ret+24(FP)
+	MOVW	R2, ret+16(FP)
 	RET
 
 // func read(fd int32, buf *byte, nbyte uint32) (int32)
@@ -385,13 +385,13 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 // func cpuset_getaffinity(level int32, which int32, id int64, size int64, mask *byte) int32
 TEXT runtime·cpuset_getaffinity(SB), NOSPLIT, $0-28
 	MOVW	level+0(FP), R4	// a0
-	MOVW	which+8(FP), R5	// a1
-	MOVV	id+16(FP), R6	// a2
-	MOVV	size+24(FP), R7	// a3
-	MOVV	mask+32(FP), R8	// a4
+	MOVW	which+4(FP), R5	// a1
+	MOVV	id+8(FP), R6	// a2
+	MOVV	size+16(FP), R7	// a3
+	MOVV	mask+24(FP), R8	// a4
 	MOVV	$SYS_cpuset_getaffinity, R2	// v0
 	SYSCALL
 	BEQ	R7, 2(PC)	// check for error
 	SUBU	R2, R0, R2
-	MOVW	R2, ret+40(FP)
+	MOVW	R2, ret+32(FP)
 	RET
