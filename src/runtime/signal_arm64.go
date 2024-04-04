@@ -65,6 +65,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// functions are correctly handled. This smashes
 	// the stack frame but we're not going back there
 	// anyway.
+	c.prepare_mcontext()
 	sp := c.sp() - sys.StackAlign // needs only sizeof uint64, but must align the stack
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
@@ -86,6 +87,7 @@ func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
 	// push the call. The function being pushed is responsible
 	// for restoring the LR and setting the SP back.
 	// This extra space is known to gentraceback.
+	c.prepare_mcontext()
 	sp := c.sp() - 16 // SP needs 16-byte alignment
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()

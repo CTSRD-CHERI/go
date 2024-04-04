@@ -110,6 +110,9 @@ const (
 	_EV_EOF       = 0x8000
 	_EVFILT_READ  = -0x1
 	_EVFILT_WRITE = -0x2
+
+	// This is specific to the CheriBSD freebsd64 compat layer
+        _MC_CAP_VALID      = 0x80000000
 )
 
 type rtprio struct {

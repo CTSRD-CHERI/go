@@ -73,3 +73,5 @@ func (c *sigctxt) set_sigcode(x uint64) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) {
 	*(*uint64)(add(unsafe.Pointer(c.info), 16)) = x
 }
+
+func (c *sigctxt) prepare_mcontext() {}

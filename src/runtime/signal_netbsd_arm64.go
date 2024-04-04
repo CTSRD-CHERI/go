@@ -71,3 +71,5 @@ func (c *sigctxt) set_sigcode(x uint64) { c.info._code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) {
 	c.info._reason = uintptr(x)
 }
+
+func (c *sigctxt) prepare_mcontext() {}

@@ -34,6 +34,10 @@ package runtime
 #include <sys/cpuset.h>
 #include <sys/param.h>
 #include <sys/vdso.h>
+
+#ifndef _MC_CAP_VALID
+#define _MC_CAP_VALID 0
+#endif
 */
 import "C"
 
@@ -142,6 +146,9 @@ const (
 	EV_EOF       = C.EV_EOF
 	EVFILT_READ  = C.EVFILT_READ
 	EVFILT_WRITE = C.EVFILT_WRITE
+
+	// This is specific to the CheriBSD freebsd64 compat layer
+	MC_CAP_VALID = C._MC_CAP_VALID
 )
 
 type Rtprio C.struct_rtprio

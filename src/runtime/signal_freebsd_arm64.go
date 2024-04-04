@@ -64,3 +64,12 @@ func (c *sigctxt) set_r28(x uint64) { c.regs().mc_gpregs.gp_x[28] = x }
 
 func (c *sigctxt) set_sigcode(x uint64) { c.info.si_code = int32(x) }
 func (c *sigctxt) set_sigaddr(x uint64) { c.info.si_addr = x }
+
+func (c *sigctxt) prepare_mcontext() {
+	// Clear the _MC_CAP_VALID flag so that mcontext updates the registers
+	// upon sigreturn. Any capabilities will be invalidated on freebsd64,
+	// but this is fine, we are not an hybrid program.
+	// This is not done in libpthread because it does not directly modify
+	// registers in the context.
+	c.regs().mc_flags &= (int32)(^uint32(_MC_CAP_VALID))
+}

@@ -88,3 +88,5 @@ func (c *sigctxt) fixsigcode(sig uint32) {
 		}
 	}
 }
+
+func (c *sigctxt) prepare_mcontext() {}
